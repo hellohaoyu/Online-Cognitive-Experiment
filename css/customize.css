@@ -7,6 +7,11 @@ body {
 
 }
 
+form {
+    margin-bottom: 15px;
+}
+
+
 .heading {
     font-family: 'Lakki Reddy', cursive;
     color: white;

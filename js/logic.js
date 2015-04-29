@@ -22,12 +22,12 @@
 
 window.addEventListener('load', prequestion, false);
 window.player = {
-            'ID': "0",
-            'Name': "0",
-            'GameId': "0",
-            'Type': 'AddUser',
-             'TimeCost': "0",
-        };
+    'ID': "0",
+    'Name': "0",
+    'GameId': "0",
+    'Type': 'AddUser',
+    'TimeCost': "0",
+};
 
 //Timer
 // window.onload = function() {
@@ -72,7 +72,7 @@ function prequestion(timer) {
 
     var startClock = function() {
         resetClock();
-         window.timer.start($('#clockface').val());
+        window.timer.start($('#clockface').val());
     };
 
     document.getElementById('start-new-game').addEventListener('click', function() {
@@ -92,9 +92,11 @@ function prequestion(timer) {
 
         if (correct) {
             document.getElementById('quizs').style.display = 'none';
+            buildCoin();
             //Start the timer
             startClock();
         } else {
+            alert("At least one of your answers are not correct, please review the three rules and then try again!");
             document.getElementById('introduction').style.display = 'inline';
             document.getElementById('quizs').style.display = 'none';
         }
@@ -109,15 +111,15 @@ function arrayContains(needle, arrhaystack) {
 function checkWin() {
     var containerTwo = document.getElementById('container2').childNodes;
     var containerThr = document.getElementById('container3').childNodes;
-    if(containerTwo){
+    if (containerTwo) {
         container2Len = containerTwo.length;
     }
-    if(container3){
+    if (container3) {
         container3Len = containerThr.length;
     }
 
-    if( (container2Len === 3) || (container3Len === 3) ){
-         return true;
+    if ((container2Len === 3) || (container3Len === 3)) {
+        return true;
     }
     return false;
 
@@ -168,21 +170,43 @@ function drop(ev) {
     };
 
     ev.target.appendChild(document.getElementById(data));
-    if(checkWin()){
+    if (checkWin()) {
         window.player.TimeCost = $('#clockface').val();
         window.player.Type = "AddExperiment";
 
         window.player.ID = document.getElementById('userID').innerHTML;
         window.player.Name = document.getElementById('userName').innerHTML;
-        window.player.GameId = "1"; 
-        userName
-        $.post('/', window.player);
+        window.player.GameId = "1";
         var time = $('#clockface').val();
         alert("Your time is " + $('#clockface').val());
         window.timer.reset();
         $('#clockface').val('');
 
+
+        var victory_notification = document.getElementById('victory-notification');
+        $('#congratulation').html( '<p id="congratulation">You took <span style="font-size: 1.5em"> ' + time + '</span></p>');
+        victory_notification.style.display = 'block';
+
+        document.getElementById('play-again').addEventListener('click', function() {
+            victory_notification.style.display = 'none';
+            buildCoin();
+            window.timer.start($('#clockface').val());
+        }, false);
+        $.post('/', window.player);
+
+        
+
     }
+}
+
+function buildCoin() {
+    var lines = '<div id="container1" class="col-xs-4 coinContainner" ondrop="drop(event)" ondragover="allowDrop(event)">';
+    lines += '<img id="1" src="img/1cent.png" ondragstart="drag(event)" draggable="true" width=80>';
+    lines += '<img id="5" src="img/5cents.png" ondragstart="drag(event)" draggable="true" width=100>';
+    lines += '<img id="100" src="img/1Do.png" ondragstart="drag(event)" draggable="true" width=120> </div>';
+    lines += ' <div id="container2" class="col-xs-4 coinContainner" ondrop="drop(event)" ondragover="allowDrop(event)"></div>';
+    lines += '<div id="container3" class="col-xs-4 coinContainner" ondrop="drop(event)" ondragover="allowDrop(event)"></div>';
+    $("#CoinGameImage").html(lines);
 }
 
 // function warning(){

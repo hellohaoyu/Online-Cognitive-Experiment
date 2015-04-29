@@ -69,13 +69,13 @@ class MainPage(webapp2.RequestHandler):
 			myplayer.experiments.append(self.experiment)
 			myplayer.put()
 
-		template_value['is_Play_CoinGmae'] = False
-		template_value['is_Play_DiskGmae'] = False
+		template_value['is_Play_CoinGame'] = False
+		template_value['is_Play_DiskGame'] = False
 
 		if self.request.get("GameId") == '1':
-			template_value['is_Play_CoinGmae'] = True
+			template_value['is_Play_CoinGame'] = True
 		else:
-			template_value['is_Play_DiskGmae'] = True
+			template_value['is_Play_DiskGame'] = True
 
 		# template = jinja_environment.get_template('index.html')
 		# self.response.write(template.render(template_value))

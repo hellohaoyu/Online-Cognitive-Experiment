@@ -46,7 +46,7 @@ li {
 
 .message {
   padding: 2em;
-  width: 30em;
+  width: 45em;
   /* TODO: remove hardcoded value for margin-top. */
   margin: 30px auto 30px auto;
 }

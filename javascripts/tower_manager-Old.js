@@ -24,13 +24,14 @@ TowerManager.prototype.draw = function() {
 
 TowerManager.prototype.create_towers = function() {
   this.towers = [];
-  var base_width = this.calculate_disk_widths().pop() + 60; //30
-  var stem_height = this.disks_count*Disk.height + 80; //40
+  var base_width = this.calculate_disk_widths().pop() + 30;
+  var stem_height = this.disks_count*Disk.height + 40;
   var base_horizontal_separation = biggest(16, base_width/10);
-  var horizontal_padding = 40; //84 42
-  var vertical_padding = 0; //160
- 
-  var towers_width = base_width*this.towers_count + base_horizontal_separation*(this.towers_count - 1) + 400;  // Calls to this.canvas.set_width and this.canvas.set_height are not combined into a single call to
+  var horizontal_padding = 42;
+  var vertical_padding = 80;
+
+  var towers_width = base_width*this.towers_count + base_horizontal_separation*(this.towers_count - 1);
+  // Calls to this.canvas.set_width and this.canvas.set_height are not combined into a single call to
   // this.canvas.set_size, as canvas width must be known *before* tower is created (so that proper x-offset for tower
   // can be calculated), but canvas height can only be known *after* tower is created (since height of canvas depends
   // on height of tallest tower).

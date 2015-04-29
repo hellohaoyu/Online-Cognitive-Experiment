@@ -40,6 +40,8 @@ Tower.prototype.draw_self = function() {
   this.ctx.rect(this.base.position.x, this.base.position.y, this.base.width, this.base.height);
   this.ctx.rect(this.stem.position.x, this.stem.position.y, this.stem.width, this.stem.height);
   this.ctx.closePath();
+  this.ctx.fillStyle="white";
+  
   this.ctx.fill();
   this.ctx.restore();
 }
