@@ -1,13 +1,10 @@
-<!DOCTYPE html> 
-{% autoescape true %}
+<!DOCTYPE html> {% autoescape true %}
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale = 1.0"> 
-    {% block title %} {% endblock %}
+    <meta name="viewport" content="width=device-width, initial-scale = 1.0"> {% block title %} {% endblock %}
     <!-- /*Common Lib*/ -->
-    {% block assets %} {% endblock %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <!-- Google Sign-In  -->
     <meta name="google-signin-client_id" content="354686140385-aearcm67kts03h3mkfae78dml8flknmn.apps.googleusercontent.com">
@@ -17,6 +14,28 @@
     <!-- Bootstrap CSS and JavaScript-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+    <script src="js/logic.js"></script>
+    <script src="js/tock.js"></script>
+
+    {% block assets %} {% if is_Play_DiskGmae %}
+    <!-- Resource From Disk Version of Tower of Hanoi -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="javascripts/miscellany.js"></script>
+    <script type="text/javascript" src="javascripts/game.js"></script>
+    <script type="text/javascript" src="javascripts/debug.js"></script>
+    <script type="text/javascript" src="javascripts/input_handler.js"></script>
+    <script type="text/javascript" src="javascripts/point.js"></script>
+    <script type="text/javascript" src="javascripts/element_coordinate_finder.js"></script>
+    <script type="text/javascript" src="javascripts/tower_manager.js"></script>
+    <script type="text/javascript" src="javascripts/game_state.js"></script>
+    <script type="text/javascript" src="javascripts/victory_celebrator.js"></script>
+    <script type="text/javascript" src="javascripts/tower.js"></script>
+    <script type="text/javascript" src="javascripts/disk.js"></script>
+    <script type="text/javascript" src="javascripts/canvas.js"></script>
+    <script type="text/javascript" src="javascripts/colour.js"></script>
+    <script type="text/javascript" src="javascripts/init.js"></script>
+    {% endif %} {% if is_Play_CoinGmae %} {% endif %} {% endblock %}
     <script>
     function onSignIn(googleUser) {
         var profile = googleUser.getBasicProfile();
@@ -24,50 +43,150 @@
         console.log('Name: ' + profile.getName());
         console.log('Image URL: ' + profile.getImageUrl());
         console.log('Email: ' + profile.getEmail());
-        var player = {'ID': profile.getId(), 'Name': profile.getName()};
-
+        var randomSelect = Math.floor((Math.random() * 2) + 1);
+        randomSelect = 1;
+        var player = {
+            'ID': profile.getId(),
+            'Name': profile.getName(),
+            'GameId': randomSelect
+        };
         $.post('/', player);
 
-        // var randomSelect = Math.floor((Math.random() * 2) + 1);
-        // if (randomSelect == 1) {
+        //document.getElementById("Login").setAttribute("style", 'display:none;');
+        //document.getElementById("playerInfo").innerHTML = "Welcome " + profile.getName() + "!";
 
-        // } else {
-
-        // }
     }
 
     function signOut() {
         var auth2 = gapi.auth2.getAuthInstance();
         auth2.signOut().then(function() {
             console.log('User signed out.');
+            $.post('/logout', player);
         });
     }
     $(document).on('click', '#startImage', function(event) {
         event.preventDefault();
         $(".abcRioButtonContentWrapper").trigger("click");
     });
+
+
+
     </script>
 </head>
 
 <body>
     <div class="container">
-        {% block Login %}
+        {% block Login %} {% if not is_Login %}
         <div id="Login">
             <h1 class="heading"> Let's Get Started!</h1>
             <div style="text-align: center;">
                 <img id="startImage" src="/img/start.jpg" style="text-align: center; cursor: pointer;" width="300" alt="start image">
-                <div id="googleLoginButton" class="g-signin2" data-onsuccess="onSignIn" style="position: relative;left: 45%;"> Sign In With Google </div>
+                <div id="googleLoginButton" class="g-signin2" data-onsuccess="onSignIn" style="position: relative;left: 45%;"> Sign In </div>
+            </div>
+            {% else %}
+            <div id="playerInfo" class="headingSub"> Welcome {{ name }} !</div>
+            {% endif %}
+        </div>
+        {% endblock %} {% block Logout %} {% if is_Login %}
+        <button type="button" class="btn btn-default navbar-btn btn-large" onclick="signOut();" style="position: relative; left:63%; bottom: 6.3em;"> Sign out</button>
+        <!--  <a href="#" onclick="signOut();">Sign out</a> -->
+        {% endif %} {% endblock %} {% block DiskGame %} {% endblock %} {% block CoinGame %} {% if is_Play_CoinGmae %}
+        <div class="container">
+            <div class="col-xs-10 ">
+                <div id="container1" class="col-xs-4 coinContainner" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <!-- <img id="oneCent" src="img/1cent.jpg" draggable="true" width=100> -->
+                    <img id="1" src="img/1cent.png" ondragstart="drag(event)" draggable="true" width=80>
+                    <img id="5" src="img/5cents.png" ondragstart="drag(event)" draggable="true" width=100>
+                    <img id="100" src="img/1Do.png" ondragstart="drag(event)" draggable="true" width=120>
+                </div>
+                <div id="container2" class="col-xs-4 coinContainner" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <div id="container3" class="col-xs-4 coinContainner" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            </div>
+           <div class="col-xs-2 timer">
+            <h2 style="color: White">Timer</h2>
+            <div class="col-xs-2">
+                <input id="clockface" placeholder="00:00:00">
             </div>
         </div>
-        {% endblock %} {% block Logout %}
-        <button type="button" class="btn btn-default navbar-btn" > <a onclick="signOut();">Sign out</a></button>
-        <!--  <a href="#" onclick="signOut();">Sign out</a> -->
-        {% endblock %} 
-        {% block DiskGame %} {% endblock %} 
-        {% block CoinGame %} {% endblock %} 
-        {% block Timer %} {% endblock %}
-        {% block Others %} {% endblock %}
+        </div>
+        <div id="introduction" class="blur">
+            <div id="introduction-message" class="obvious message borderShow">
+                <h1>Coin Adventure</h1>
+                <p style="font-size: 1.2em;">Your objective is to move your three coins into another circle. During the process, you have to follow the three rules below</p>
+                <ul>
+                    <li>Rule 1: Player can only move a coin in one time</li>
+                    <img src="img/MoveOnce-Coin.gif" width=250 alt="MoveOnce-Coin.gif">
+                    <li>Rule 2: Player can only move the biggest coin in a stack</li>
+                    <img src="img/MoveAsBig-Coin.gif" width=250 alt="MoveAsBig-Coin.gif">
+                    <li>Rule 3: The moved coin should be the biggest plate in its new stack </li>
+                    <img src="img/MoveBig-Coin.gif" width=250 alt="MoveBig-Coin.gif">
+                </ul>
+                <p> <strong> Please conitue and then finish quizs related the above rules!</strong> </p>
+                <button type="button" id="continue" class="btn  btn-primary btn-default" style="position: relative;
+    left: 220px;
+">Continue</button>
+            </div>
+        </div>
+        <div id="quizs" class="blur">
+            <div id="quizs-content" class="obvious message borderShow" >
+                <h1>Pre-game Quiz</h1>
+                <p style="font-size: 1.2em;"> In order to test whether you fully understand the rules, here are three questions. Only when you answer them correctly, then you can start the game. Otherwise, you will be asked to go back to former page and review the rules.</p>
+                <form>
+                    <dt>1. How many element can you move in each time?</dt>
+                    <dd>
+                        <input type="radio" name="1" value="Rule1"> 1
+                        <br>
+                        <input type="radio" name="1" value="2"> 2
+                        <br>
+                        <input type="radio" name="1" value="3"> 3
+                        <br>
+                        <input type="radio" name="1" value="all are OK"> all are OK
+                        <br>
+                    </dd>
+                </form>
+                <form>
+                    <dt>1. Which one of coin you could move ?</dt>
+                    <dd>
+                        <input type="radio" name="1" value="Penny"> Penny
+                        <br>
+                        <input type="radio" name="1" value="Quarter"> Quarter
+                        <br>
+                        <input type="radio" name="1" value="Rule2"> Dollar
+                        <br>
+                        <input type="radio" name="1" value="all are OK"> all are OK
+                        <br>
+                    </dd>
+                </form>
+                <form>
+                    <dt>1. How many element can you move in each time?</dt>
+                    <dd>
+                        <input type="radio" name="1" value="Rule3"> 1
+                        <br>
+                        <input type="radio" name="1" value="2"> 2
+                        <br>
+                        <input type="radio" name="1" value="3"> 3
+                        <br>
+                        <input type="radio" name="1" value="all are OK"> all are OK
+                        <br>
+                    </dd>
+                </form>
+                </dl>
+                <button type="button" id="start-new-game" class="btn  btn-primary btn-default" style="position: relative;left: 160px;top: 10px; "> Submit & Start Game</button>
+            </div>
+        </div>
+        <div id="victory-notification" class="blur">
+            <div id="victory-message" class="obvious message borderShow">
+                <h1>Victory!</h1>
+                <p>Congratulations! You just
+                    <a href="http://en.wikipedia.org/wiki/Towers_of_hanoi#Origins">ended the world</a>.</p>
+                <p>
+                    <input id="play-again" type="button" value="Play again" /> with
+                    <input id="disks-count" type="text" size="2" maxlength="2" value="3" /> disks.</p>
+            </div>
+        </div>
+        {% endif %} {% endblock %} {% block Timer %} {% endblock %} {% block Others %} {% endblock %}
     </div>
+    <div id="debug"></div>
 </body>
 
 </html>

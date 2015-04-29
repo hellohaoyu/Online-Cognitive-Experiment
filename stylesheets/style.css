@@ -1,0 +1,84 @@
+* {
+/*  padding: 0;
+  margin: 0;*/
+  font-family: fantasy, sans-serif;
+}
+
+li {
+  margin: 5px 0;
+}
+
+#debug {
+  display: none;
+  margin: 5em 0 0 5em;;
+}
+
+#debug * {
+  padding: 0.1em;
+}
+
+
+.borderShow{
+    border: solid; 
+    border-color: #dddddd #aaaaaa #aaaaaa #dddddd; 
+    border-width: 8px 10px 10px 8px;
+}
+
+.blur {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  /* Can't use opacity, as child elements inherit it.
+     Can't use rgba background-color, as only Firefox 3 & Chrome support it. */
+  background-image: url('../images/black-translucent.png');
+}
+
+.obvious {
+  background-color: #fff;
+}
+
+
+#quizs {
+  display: none;
+}
+
+.message {
+  padding: 2em;
+  width: 30em;
+  /* TODO: remove hardcoded value for margin-top. */
+  margin: 30px auto 30px auto;
+}
+
+.message > p {
+  margin-top: 0.4em;
+  margin-bottom: 1.3em;
+}
+
+#victory-notification {
+  display: none;
+}
+
+#victory-message {
+  margin: 20% auto 0 auto;
+  width: 25em;
+  padding: 1em;
+}
+
+#victory-message > h1 {
+  text-align: center;
+}
+
+#victory-message > p {
+  padding-top: 1.4em;
+}
+
+#clockface {
+  border: solid 1px #301212;
+  border-radius: 20px;
+  background-color: #FDFDFD;
+  width: 5em;
+  padding: 0.2em;
+  font-size: 4em;
+}

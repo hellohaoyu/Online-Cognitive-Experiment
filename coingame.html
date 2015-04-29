@@ -2,8 +2,25 @@
 {% block title %}
   <title>Coin Adventure</title>
 {% endblock %}
-{% block CoinGame %} 
-<!--    {% if is_Play_CoinGmae %}
 
-   {% endif %} -->
+{% block assets %} 
+ <script src="js/logic.js"></script>
+{% endblock %}
+
+{% block CoinGame %} 
+<h1>ABCDEF</h1>
+   {% if is_Play_CoinGmae %}
+    <div class="container">
+<div class="col-xs-12 ">
+    <div id="container1" class="col-xs-4 coinContainner" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <!-- <img id="oneCent" src="img/1cent.jpg" draggable="true" width=100> -->
+        <img id="1" src="img/1cent.png" ondragstart="drag(event)" draggable="true" width=80>
+        <img id="5" src="img/5cents.png" ondragstart="drag(event)" draggable="true" width=100>
+        <img id="100" src="img/1Do.png" ondragstart="drag(event)" draggable="true" width=120>
+    </div>
+    <div id="container2" class="col-xs-4 coinContainner" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <div id="container3" class="col-xs-4 coinContainner" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+</div>
+</div>
+   {% endif %}
 {% endblock %}

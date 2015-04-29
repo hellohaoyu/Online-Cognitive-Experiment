@@ -16,7 +16,16 @@ handlers:
 - url: /
   script: main.app
   secure: always
-- url: /newpage
+- url: /coingame
+  script: main.app
+  secure: always
+- url: /diskgame
+  script: main.app
+  secure: always
+- url: /logout
+  script: main.app
+  secure: always
+- url: /test
   script: main.app
   secure: always
 
@@ -30,6 +39,14 @@ handlers:
   static_dir: css
 - url: /img
   static_dir: img
+- url: /js
+  static_dir: js
+- url: /javascripts
+  static_dir: javascripts
+- url: /stylesheets
+  static_dir: stylesheets
+- url: /images
+  static_dir: images
 - url: /favicon\.ico
   static_files: favicon.ico
   upload: favicon\.ico

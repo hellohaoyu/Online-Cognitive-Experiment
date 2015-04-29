@@ -10,7 +10,7 @@ jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
-
+template_value = {'is_Login': False}
 
 class Experiment(ndb.Model):
   # userid = ndb.IntegerProperty()
@@ -38,47 +38,56 @@ class Player(ndb.Model):
 
 class MainPage(webapp2.RequestHandler):
 	def get(self):
+		logging.info("Get MainPage" )
+		global template_value
+		logging.info(template_value )
 		template = jinja_environment.get_template('index.html')
-		self.response.write(template.render(name="haoyu"))
-		self.alldata = datastore.Sample.all()
-		# logging.info(self.alldata)
-		# i = 0
-		# for self.data in self.alldata:
-		# 	i = i + 1
-		# 	# logging.info(data.name)
-		# 	logging.info("Testing log: " + str(i) )
-		# 	self.response.write("<span> Name: %s</span>" %  self.data.name)
-		# 	self.response.write("<span> Time: %s</span><br>" % self.data.time)
-		# 	# self.response.write('<p> date: </p><p>%s</p>' % data.date)
+		self.response.write(template.render(template_value))
 
-		# self.response.write(""" 
-		# 	Enter your comment: 
-		# 	<form method="post">
-		# 	<span>UserName</span> <input type= "textarea" name="name">
-		# 	<span>Time</span><input type= "textarea" name="time">
-		# 	<input type="submit">
-		# 	</form>""")
-		# self.response.write("</body></html>");
 
 	def post(self):
-		logging.info(self.request.get("Name"))
-		logging.info(self.request.get("ID"))
-
+		logging.info("Post MainPage" )
+		global template_value
+		template_value['is_Login'] = True
+		template_value['name'] = self.request.get("Name")
+		self.redirect('/')
 		qry = Player.query(Player.userid == self.request.get("ID"))
-		logging.info(Player.get_by_id(self.request.get("ID")))
+		# logging.info(Player.get_by_id(self.request.get("ID")))
 		playerid = (self.request.get("ID"))
-		logging.info(qry.get())
+		# logging.info(qry.get())
 		if qry.get() == None:
 			self.player = Player(parent=ndb.Key("Players", "PlayersKeys"), name = self.request.get("Name"), userid = playerid)
-			self.player.put()
+			self.player.put()		
 
+		template_value['is_Play_CoinGmae'] = False
+		template_value['is_Play_DiskGmae'] = False
+
+		if self.request.get("GameId") == '1':
+			template_value['is_Play_CoinGmae'] = True
+		else:
+			template_value['is_Play_DiskGmae'] = True
+
+		# template = jinja_environment.get_template('index.html')
+		# self.response.write(template.render(template_value))
+		# logging.info("GameId: "+ str(self.request.get("GameId")))
+		# logging.info(self.request.get("GameId") == 1)
+		# if self.request.get("GameId") == '1':
+		# 	logging.info("GameId: 1 and Redirect to CoinGame" )
+		# 	self.redirect('/coingame')
+		# else:
+		# 	self.redirect('/diskgame')
 
 
 class CoinGame(webapp2.RequestHandler):
 	def get(self):
-		pass
-	# 	template = jinja_environment.get_template('coingame.html')
-	# 	self.template_value[] = 
+		# self.response.write("Thanks Again!!");
+		global template_value
+		logging.info("Get CoinGame")
+		template = jinja_environment.get_template('coingame.html')
+
+		logging.info(template_value)
+		self.response.write(template.render(template_value))
+
 	# 	self.response.write(template.render())
 	# def post(self):
 	# 	logging.info(self.request.get("Name"))
@@ -94,6 +103,18 @@ class CoinGame(webapp2.RequestHandler):
 class DiskGame(webapp2.RequestHandler):
 	def get(self):
 		pass
+
+
+class Logout(webapp2.RequestHandler):
+	def post(self):
+		global template_value
+		logging.info("Logout")
+		template_value = {'is_Login': False}
+
+class Test(webapp2.RequestHandler):
+
+    def get(self):
+        self.redirect('/coingame')
 	# 	# self.response.write("<h1>%s</h1>" % self.request.get("Name"));
 	# 	self.response.write("<h1>New Page</h1>");
 
@@ -108,4 +129,4 @@ class DiskGame(webapp2.RequestHandler):
 	# 	if qry.get() == None:
 	# 		self.player = Player(parent=ndb.Key("Players", "PlayersKeys"), name = self.request.get("Name"), userid = playerid)
 	# 		self.player.put()
-app = webapp2.WSGIApplication([('/', MainPage), ('/coingame', CoinGame), ('/diskgame', DiskGame),], debug= True)
+app = webapp2.WSGIApplication([('/', MainPage), ('/coingame', CoinGame),('/logout', Logout), ('/diskgame', DiskGame),('/test', Test)], debug= True)
