@@ -1,9 +1,11 @@
-<!DOCTYPE html> {% autoescape true %}
+<!DOCTYPE html> 
+{% autoescape true %}
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale = 1.0"> {% block title %} {% endblock %}
+    <meta name="viewport" content="width=device-width, initial-scale = 1.0"> 
+    {% block title %} {% endblock %}
     <!-- /*Common Lib*/ -->
     {% block assets %} {% endblock %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -22,13 +24,16 @@
         console.log('Name: ' + profile.getName());
         console.log('Image URL: ' + profile.getImageUrl());
         console.log('Email: ' + profile.getEmail());
+        var player = {'ID': profile.getId(), 'Name': profile.getName()};
 
-        var randomSelect = Math.floor((Math.random() * 2) + 1);
-        if (randomSelect == 1) {
+        $.post('/', player);
 
-        } else {
+        // var randomSelect = Math.floor((Math.random() * 2) + 1);
+        // if (randomSelect == 1) {
 
-        }
+        // } else {
+
+        // }
     }
 
     function signOut() {
@@ -55,9 +60,13 @@
             </div>
         </div>
         {% endblock %} {% block Logout %}
-        <button type="button" class="btn btn-default navbar-btn" > <a href="#" onclick="signOut();">Sign out</a></button>
+        <button type="button" class="btn btn-default navbar-btn" > <a onclick="signOut();">Sign out</a></button>
         <!--  <a href="#" onclick="signOut();">Sign out</a> -->
-        {% endblock %} {% block DiskGame %} {% endblock %} {% block CoinGame %} {% endblock %} {% block Others %} {% endblock %}
+        {% endblock %} 
+        {% block DiskGame %} {% endblock %} 
+        {% block CoinGame %} {% endblock %} 
+        {% block Timer %} {% endblock %}
+        {% block Others %} {% endblock %}
     </div>
 </body>
 

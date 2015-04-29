@@ -16,6 +16,11 @@ handlers:
 - url: /
   script: main.app
   secure: always
+- url: /newpage
+  script: main.app
+  secure: always
+
+
 
 # access the static resources in the root director
 # - url: /(.*)

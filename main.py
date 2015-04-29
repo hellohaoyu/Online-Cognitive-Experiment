@@ -12,17 +12,23 @@ jinja_environment = jinja2.Environment(
     autoescape=True)
 
 
-# class Experiment(ndb.Model):
-#   player = ndb.UserProperty()
-#   date = ndb.DateTimeProperty(auto_now_add=True)
-#   time = ndb.IntegerProperty()
+class Experiment(ndb.Model):
+  # userid = ndb.IntegerProperty()
+  userid = ndb.StringProperty()
+  date = ndb.DateTimeProperty(auto_now_add=True)
+  time = ndb.IntegerProperty()
 
-# class Player(ndb.Model):
-#     """Models an individual Guestbook entry with author, content, and date."""
-#     player = ndb.UserProperty()
-#     email = ndb.StringProperty()
-#     registerDate = ndb.DateTimeProperty(auto_now_add=True)
-#     experiments = ndb.StructuredProperty(Experiment, repeated=True)
+class Player(ndb.Model):
+    """Models an individual Guestbook entry with author, content, and date."""
+    name = ndb.StringProperty()
+    # userid = ndb.IntegerProperty()
+    userid = ndb.StringProperty()
+    registerDate = ndb.DateTimeProperty(auto_now_add=True)
+    experiments = ndb.StructuredProperty(Experiment, repeated=True)
+
+    @classmethod
+    def query_Player(cls, ancestor_key):
+    	return cls.query(ancestor=ancestor_key)
 
 # class Sample(db.Model):
 #   name = db.StringProperty()
@@ -55,10 +61,51 @@ class MainPage(webapp2.RequestHandler):
 		# self.response.write("</body></html>");
 
 	def post(self):
-		Username = self.request.get("name")
-		Costtime = int(self.request.get("time"))
-		self.sample = datastore.Sample(name = Username, time = Costtime)
-		self.sample.put()
-		self.redirect("/")
+		logging.info(self.request.get("Name"))
+		logging.info(self.request.get("ID"))
 
-app = webapp2.WSGIApplication([('/', MainPage)], debug= True)
+		qry = Player.query(Player.userid == self.request.get("ID"))
+		logging.info(Player.get_by_id(self.request.get("ID")))
+		playerid = (self.request.get("ID"))
+		logging.info(qry.get())
+		if qry.get() == None:
+			self.player = Player(parent=ndb.Key("Players", "PlayersKeys"), name = self.request.get("Name"), userid = playerid)
+			self.player.put()
+
+
+
+class CoinGame(webapp2.RequestHandler):
+	def get(self):
+		pass
+	# 	template = jinja_environment.get_template('coingame.html')
+	# 	self.template_value[] = 
+	# 	self.response.write(template.render())
+	# def post(self):
+	# 	logging.info(self.request.get("Name"))
+	# 	logging.info(self.request.get("ID"))
+
+	# 	qry = Player.query(Player.userid == self.request.get("ID"))
+	# 	logging.info(Player.get_by_id(self.request.get("ID")))
+	# 	playerid = (self.request.get("ID"))
+	# 	logging.info(qry.get())
+	# 	if qry.get() == None:
+	# 		self.player = Player(parent=ndb.Key("Players", "PlayersKeys"), name = self.request.get("Name"), userid = playerid)
+	# 		self.player.put()
+class DiskGame(webapp2.RequestHandler):
+	def get(self):
+		pass
+	# 	# self.response.write("<h1>%s</h1>" % self.request.get("Name"));
+	# 	self.response.write("<h1>New Page</h1>");
+
+	# def post(self):
+	# 	logging.info(self.request.get("Name"))
+	# 	logging.info(self.request.get("ID"))
+
+	# 	qry = Player.query(Player.userid == self.request.get("ID"))
+	# 	logging.info(Player.get_by_id(self.request.get("ID")))
+	# 	playerid = (self.request.get("ID"))
+	# 	logging.info(qry.get())
+	# 	if qry.get() == None:
+	# 		self.player = Player(parent=ndb.Key("Players", "PlayersKeys"), name = self.request.get("Name"), userid = playerid)
+	# 		self.player.put()
+app = webapp2.WSGIApplication([('/', MainPage), ('/coingame', CoinGame), ('/diskgame', DiskGame),], debug= True)
