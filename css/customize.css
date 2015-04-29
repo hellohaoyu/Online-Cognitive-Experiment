@@ -1,0 +1,65 @@
+body {
+background-color:black;
+background-image:
+radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px),
+radial-gradient(rgba(255,255,255,.4), rgba(255,255,255,.1) 2px, transparent 30px);
+background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px; 
+background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;"
+}
+
+.col-xs-4 img {
+	display: inline-block;
+    vertical-align: middle;
+	
+}
+.coinContainner {
+	text-align: center;
+
+	/*Draw the circle*/
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    padding: 20px 10px 0px 0px;
+    margin: 0 25px;
+
+	/*Background color*/
+    background-image: -moz-radial-gradient(blue,rgb(0, 119, 255),rgb(0, 100, 255),rgb(0, 216, 255),blue);
+	background-image: -webkit-gradient(radial, center center, 0, center center, 220, color-stop(0.20,blue),color-stop(0.40,rgb(0, 119, 255)), color-stop(0.6,rgb(0, 100, 255)), color-stop(0.8,rgb(0, 216, 255)), color-stop(1,blue)); /* old */
+	background-image: -webkit-radial-gradient(blue,rgb(0, 119, 255),rgb(0, 100, 255),rgb(0, 216, 255),blue); /* new syntax */
+	background-image: radial-gradient(blue,rgb(0, 119, 255),rgb(0, 100, 255),rgb(0, 216, 255),blue);
+}
+
+body {
+	/*background-image: url("../img/background.jpg");*/
+  /*  background-color: red;*/
+}
+
+
+/*#header {
+	background-image: url("img/background.jpg");
+	padding: 100px;
+}*/
+
+#headwords {
+	font-family: 'Romanesco', cursive ;
+	font-size: 100px;
+	padding: 50px 0 0 0;
+	text-align: center;
+	color: white;
+
+}
+
+.timer{
+	/*margin: 0px 30px 0 0;*/
+}
+
+.btn {
+	margin: 0 2em;
+}
+
+#clockface {
+	margin-bottom: 2em;
+
+}

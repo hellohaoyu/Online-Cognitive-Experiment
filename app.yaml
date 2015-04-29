@@ -1,0 +1,29 @@
+application: haoyu-experiment
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: yes
+
+handlers:
+# - url: /.*
+#   script: controllers.main.app
+#   secure: always
+
+# - url: /
+#   static_files: index.html
+#   upload: index.html
+
+- url: /.*
+  script: main.app
+  secure: always
+
+# access the static resources in the root director
+# - url: /(.*)
+#   static_files: \1
+#   upload: (.*)
+
+libraries:
+- name: webapp2
+  version: "2.5.2"
+- name: jinja2
+  version: "2.6"

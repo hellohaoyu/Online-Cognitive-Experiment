@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale = 1.0">
+    <title>Haoyu's Experiment</title>
+    <!-- /*Common Lib*/ -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <!-- Google Sign-In  -->
+    <meta name="google-signin-client_id" content="354686140385-aearcm67kts03h3mkfae78dml8flknmn.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <link rel="stylesheet" href="css/customize.css">
+    <link href='http://fonts.googleapis.com/css?family=Lakki+Reddy' rel='stylesheet' type='text/css'>
+    <script>
+    function onSignIn(googleUser) {
+        var profile = googleUser.getBasicProfile();
+        console.log('ID: ' + profile.getId());
+        console.log('Name: ' + profile.getName());
+        console.log('Image URL: ' + profile.getImageUrl());
+        console.log('Email: ' + profile.getEmail());
+
+        var randomSelect = Math.floor((Math.random() * 2) + 1);
+        if (randomSelect == 1) {
+
+        } else {
+
+        }
+    }
+    </script>
+</head>
+
+<body>
+    <h1>{{name}}</h1>
+    <!-- Google Account Login -->
+    <div id="Login">
+        <h1 style="font-family: 'Lakki Reddy', cursive;color: white ;font-size: 4em; text-align:center;margin-bottom:0;"> Let's Get Started!</h1>
+        <div style="text-align: center;">
+            <img src="img/start.jpg" style="text-align: center;" width="300" alt="start image">
+            <div class="g-signin2" data-onsuccess="onSignIn" style="position: relative;left: 45%;"> Sign In</div>
+        </div>
+    </div>
+</body>
+
+</html>
+{% endautoescape %}
