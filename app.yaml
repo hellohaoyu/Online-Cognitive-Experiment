@@ -13,9 +13,22 @@ handlers:
 #   static_files: index.html
 #   upload: index.html
 
-- url: /.*
+- url: /
   script: main.app
   secure: always
+
+# access the static resources in the root director
+# - url: /(.*)
+#   static_files: \1
+#   upload: (.*)
+- url: /css
+  static_dir: css
+- url: /img
+  static_dir: img
+- url: /favicon\.ico
+  static_files: favicon.ico
+  upload: favicon\.ico
+
 
 # access the static resources in the root director
 # - url: /(.*)
