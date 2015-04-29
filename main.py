@@ -16,7 +16,7 @@ class Experiment(ndb.Model):
   # userid = ndb.IntegerProperty()
   userid = ndb.StringProperty()
   date = ndb.DateTimeProperty(auto_now_add=True)
-  time = ndb.IntegerProperty()
+  time = ndb.StringProperty()
 
 class Player(ndb.Model):
     """Models an individual Guestbook entry with author, content, and date."""
@@ -50,14 +50,24 @@ class MainPage(webapp2.RequestHandler):
 		global template_value
 		template_value['is_Login'] = True
 		template_value['name'] = self.request.get("Name")
+		template_value['ID'] = self.request.get("ID")
 		self.redirect('/')
 		qry = Player.query(Player.userid == self.request.get("ID"))
 		# logging.info(Player.get_by_id(self.request.get("ID")))
 		playerid = (self.request.get("ID"))
 		# logging.info(qry.get())
-		if qry.get() == None:
+		# logging.info("AddExperiment")
+		if (qry.get() == None) and (self.request.get("Type") == "AddUser") :
+			logging.info("AddUser")
 			self.player = Player(parent=ndb.Key("Players", "PlayersKeys"), name = self.request.get("Name"), userid = playerid)
-			self.player.put()		
+			self.player.put()
+
+		if (self.request.get("Type") == "AddExperiment"):
+			logging.info("AddExperiment")
+			self.experiment = Experiment(parent=ndb.Key("Experiments", self.request.get("ID")), userid = playerid, time = self.request.get("TimeCost"))
+			myplayer = qry.get()
+			myplayer.experiments.append(self.experiment)
+			myplayer.put()
 
 		template_value['is_Play_CoinGmae'] = False
 		template_value['is_Play_DiskGmae'] = False

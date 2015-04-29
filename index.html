@@ -15,8 +15,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
-    <script src="js/logic.js"></script>
-    <script src="js/tock.js"></script>
+
 
     {% block assets %} {% if is_Play_DiskGmae %}
     <!-- Resource From Disk Version of Tower of Hanoi -->
@@ -45,18 +44,19 @@
         console.log('Email: ' + profile.getEmail());
         var randomSelect = Math.floor((Math.random() * 2) + 1);
         randomSelect = 1;
-        var player = {
+        window.player = {
             'ID': profile.getId(),
             'Name': profile.getName(),
-            'GameId': randomSelect
+            'GameId': randomSelect,
+            'Type': 'AddUser',
+             'TimeCost': "0",
         };
-        $.post('/', player);
+        $.post('/', window.player);
 
         //document.getElementById("Login").setAttribute("style", 'display:none;');
         //document.getElementById("playerInfo").innerHTML = "Welcome " + profile.getName() + "!";
 
     }
-
     function signOut() {
         var auth2 = gapi.auth2.getAuthInstance();
         auth2.signOut().then(function() {
@@ -68,10 +68,9 @@
         event.preventDefault();
         $(".abcRioButtonContentWrapper").trigger("click");
     });
-
-
-
     </script>
+    <script src="js/logic.js"></script>
+    <script src="js/tock.js"></script>
 </head>
 
 <body>
@@ -85,6 +84,8 @@
             </div>
             {% else %}
             <div id="playerInfo" class="headingSub"> Welcome {{ name }} !</div>
+            <div id="userID" style="display:none" >{{ID}}</div>
+            <div id="userName" style="display:none">{{name}}</div>
             {% endif %}
         </div>
         {% endblock %} {% block Logout %} {% if is_Login %}

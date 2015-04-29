@@ -21,6 +21,13 @@
 // }]);
 
 window.addEventListener('load', prequestion, false);
+window.player = {
+            'ID': "0",
+            'Name': "0",
+            'GameId': "0",
+            'Type': 'AddUser',
+             'TimeCost': "0",
+        };
 
 //Timer
 // window.onload = function() {
@@ -42,7 +49,8 @@ window.addEventListener('load', prequestion, false);
 
 // };
 
-function prequestion() {
+
+function prequestion(timer) {
     document.getElementById('continue').addEventListener('click', function() {
         document.getElementById('introduction').style.display = 'none';
         document.getElementById('quizs').style.display = 'inline';
@@ -50,21 +58,21 @@ function prequestion() {
 
     }, false);
 
-
-    var timer = new Tock({
+    window.timer = new Tock({
         callback: function() {
-            $('#clockface').val(timer.msToTime(timer.lap()));
+            $('#clockface').val(window.timer.msToTime(window.timer.lap()));
         }
     });
 
+
     var resetClock = function() {
-        timer.reset();
+        window.timer.reset();
         $('#clockface').val('');
     };
 
     var startClock = function() {
         resetClock();
-        timer.start($('#clockface').val());
+         window.timer.start($('#clockface').val());
     };
 
     document.getElementById('start-new-game').addEventListener('click', function() {
@@ -98,6 +106,22 @@ function arrayContains(needle, arrhaystack) {
     return (arrhaystack.indexOf(needle) > -1);
 }
 
+function checkWin() {
+    var containerTwo = document.getElementById('container2').childNodes;
+    var containerThr = document.getElementById('container3').childNodes;
+    if(containerTwo){
+        container2Len = containerTwo.length;
+    }
+    if(container3){
+        container3Len = containerThr.length;
+    }
+
+    if( (container2Len === 3) || (container3Len === 3) ){
+         return true;
+    }
+    return false;
+
+}
 
 function drag(ev) {
     //alert("Drag ID: " + ev.target.id);
@@ -144,6 +168,21 @@ function drop(ev) {
     };
 
     ev.target.appendChild(document.getElementById(data));
+    if(checkWin()){
+        window.player.TimeCost = $('#clockface').val();
+        window.player.Type = "AddExperiment";
+
+        window.player.ID = document.getElementById('userID').innerHTML;
+        window.player.Name = document.getElementById('userName').innerHTML;
+        window.player.GameId = "1"; 
+        userName
+        $.post('/', window.player);
+        var time = $('#clockface').val();
+        alert("Your time is " + $('#clockface').val());
+        window.timer.reset();
+        $('#clockface').val('');
+
+    }
 }
 
 // function warning(){
