@@ -1,3 +1,4 @@
+
 from controllers import datastore
 import jinja2
 import webapp2
@@ -71,8 +72,11 @@ class MainPage(webapp2.RequestHandler):
 
 		template_value['is_Play_CoinGame'] = False
 		template_value['is_Play_DiskGame'] = False
-
-		if self.request.get("GameId") == '1':
+		logging.info("*****************************************")
+		logging.info((str)(self.request.get("GameId")) == '1')
+		logging.info(self.request.get("GameId") == 1)
+		# if self.request.get("GameId") ==  1:
+		if (str)(self.request.get("GameId")) == '1':
 			template_value['is_Play_CoinGame'] = True
 		else:
 			template_value['is_Play_DiskGame'] = True

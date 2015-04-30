@@ -1,7 +1,12 @@
 * {
 /*  padding: 0;
   margin: 0;*/
-  font-family: fantasy, sans-serif;
+/*  font-family: fantasy, sans-serif;*/
+  font-family: inherit;
+}
+
+#arrow {
+   background-image: url("/img/downarrow.png");
 }
 
 li {
